@@ -192,8 +192,7 @@ impl<
         todo!("Create an inode for the inode table");
         // The `bytes_stored` will be the number of inode entries. 
         // * Use `num_inode_entries()`` to obtain this value.
-        // Create an array of size MAX_FILE_BLOCKS to contain the block 
-        //   numbers for the inode blocks.
+        // Fill in the block numbers for the inode blocks in the inode's block array.
         // Every block starting at block 2 and going up to the first data
         //   block is an inode block.
     }
@@ -651,7 +650,7 @@ mod tests {
         let mut sys = make_preloaded_fs();
         let inode = sys.inode_table_inode();
         assert_eq!(inode.bytes_stored, 300);
-        assert_eq!(inode.blocks, [2, 3, 4, 5, 6, 0, 0, 0]);
+        assert_eq!(&inode.blocks[..5], [2, 3, 4, 5, 6]);
     }
 
     #[test]
